@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<OpenGeoSysProject>
+    <meshes>
+        <mesh>input_meshes/QuartCyl.vtu</mesh>
+        <mesh>input_meshes/QuartCyl_xmin.vtu</mesh>
+        <mesh>input_meshes/QuartCyl_ymin.vtu</mesh>
+        <mesh>input_meshes/QuartCyl_side.vtu</mesh>
+        <mesh>input_meshes/QuartCyl_zmin.vtu</mesh>
+        <mesh>input_meshes/QuartCyl_zmax.vtu</mesh>
+    </meshes>
+    <processes>
+        <process>
+            <name>SD</name>
+            <type>SMALL_DEFORMATION</type>
+            <integration_order>4</integration_order>
+	        <constitutive_relation>
+                <type>MFront</type>
+                <behaviour>HoekBrownC2</behaviour>
+                <material_properties>
+                    <material_property name="YoungModulus" parameter="E"/>
+                    <material_property name="PoissonRatio" parameter="nu"/>                    
+                    <material_property name="UniaxialCompressiveStrengthF" parameter="sigma_ci"/>
+                    <material_property name="CurveFittingParameterF" parameter="m_b"/>
+                    <material_property name="ExponentF" parameter="a"/>
+                    <material_property name="EstimatedParameterF" parameter="s"/>
+                    <material_property name="J2TOL" parameter="J2TOL"/>
+                    <material_property name="InitialJ2" parameter="InitialJ2"/>
+                    <material_property name="TransitionAngle" parameter="TransitionAngle"/>
+                    <material_property name="UniaxialCompressiveStrengthG" parameter="sigma_cig"/>
+                    <material_property name="CurveFittingParameterG" parameter="m_bg"/>
+                    <material_property name="ExponentG" parameter="ag"/>
+                    <material_property name="EstimatedParameterG" parameter="sg"/>
+                </material_properties>
+            </constitutive_relation>
+            <specific_body_force>0 0 0</specific_body_force>
+            <reference_temperature>T_ref</reference_temperature>
+            <initial_stress>initial_stress</initial_stress>
+            <process_variables>
+                <process_variable>displacement</process_variable>
+            </process_variables>
+            <secondary_variables>
+                <secondary_variable internal_name="ElasticStrain" output_name="ElasticStrain"/>
+                <secondary_variable internal_name="EquivalentPlasticStrain" output_name="EquivalentPlasticStrain"/>
+                <secondary_variable internal_name="sigma" output_name="sigma"/>
+                <secondary_variable internal_name="epsilon" output_name="epsilon"/>
+            </secondary_variables>
+        </process>
+    </processes>
+    <time_loop>
+        <processes>
+            <process ref="SD">
+                <nonlinear_solver>basic_newton</nonlinear_solver>
+                <convergence_criterion>               
+                    <type>DeltaX</type>
+                    <norm_type>NORM2</norm_type>   <!--INFINITY_N-->
+                    <abstol>1e-8</abstol>
+                </convergence_criterion>                
+                <time_discretization>
+                    <type>BackwardEuler</type>
+                </time_discretization>
+                <time_stepping>
+                    <type>IterationNumberBasedTimeStepping</type>
+                    <t_initial>0.0</t_initial>
+                    <t_end>10.0</t_end>
+                    <initial_dt>5e-2</initial_dt>
+                    <minimum_dt>5e-4</minimum_dt>
+                    <maximum_dt>5.</maximum_dt>
+                    <number_iterations>1 4 6 8 10 12 </number_iterations>
+                    <multiplier>1.2 1.1 1. 0.8 0.5 0.2</multiplier>
+                </time_stepping>
+            </process>
+        </processes>
+        <output>
+            <type>VTK</type>
+            <prefix>cylinder_compression</prefix>
+            <timesteps>
+                <pair>
+                    <repeat>1</repeat>
+                    <each_steps>1</each_steps>
+                </pair>
+            </timesteps>
+            <variables>
+            </variables>
+            <suffix>_ts_{:timestep}_t_{:gtime}_sec</suffix>
+        </output>
+    </time_loop>
+    <local_coordinate_system>
+        <basis_vector_0>e0</basis_vector_0>
+        <basis_vector_1>e1</basis_vector_1>
+        <basis_vector_2>e2</basis_vector_2>
+    </local_coordinate_system>
+       <media>
+        <medium>
+            <phases>
+                <phase>
+                    <type>Solid</type>
+                    <properties>
+                        <property>
+                            <name>density</name>
+                            <type>Constant</type>
+                            <value>2700.0</value>
+                        </property>
+                    </properties>
+                </phase>
+            </phases>
+        </medium>
+    </media>
+    <parameters>
+    	<parameter>
+            <mesh>QuartCyl</mesh>
+            <name>initial_stress</name>
+            <type>Function</type>
+            <expression>0.0</expression>
+            <expression>0.0</expression>
+            <expression>0.0</expression>
+            <expression>0.0</expression>
+            <expression>0.0</expression>
+            <expression>0.0</expression>
+        </parameter>
+        <parameter>
+            <name>T_ref</name>
+            <type>Constant</type>
+            <values>293.15</values>
+        </parameter>
+        <parameter>
+            <name>E</name>
+            <type>Constant</type>
+            <values>4e3</values> <!--E is to be in MPa-->
+        </parameter>
+        <parameter>
+            <name>nu</name>
+            <type>Constant</type>
+            <values>0.25</values>
+        </parameter>
+         <parameter>
+            <name>sigma_ci</name>
+            <type>Constant</type>
+            <values>80</values> <!--sigma_ci is to be in MPa-->
+        </parameter>
+        <parameter>
+            <name>m_b</name>
+            <type>Constant</type>
+            <values>15.9</values>
+        </parameter>
+        <parameter>
+            <name>a</name>
+            <type>Constant</type>
+            <values>0.5</values>
+        </parameter>
+        <parameter>
+            <name>s</name>
+            <type>Constant</type>
+            <values>1.</values>
+        </parameter>
+        <parameter>
+            <name>J2TOL</name>
+            <type>Constant</type>
+            <values>1e-6</values>
+        </parameter>
+        <parameter>
+            <name>InitialJ2</name>
+            <type>Constant</type>
+            <values>1e-6</values>
+        </parameter>
+        <parameter>
+            <name>TransitionAngle</name>
+            <type>Constant</type>
+            <values>29.</values>
+        </parameter>        
+        <parameter>
+            <name>sigma_cig</name>
+            <type>Constant</type>
+            <values>80.</values>    
+        </parameter>
+        <parameter>
+            <name>m_bg</name>
+            <type>Constant</type>
+            <values>15.9</values>
+        </parameter>
+        <parameter>
+            <name>ag</name>
+            <type>Constant</type>
+            <values>0.5</values>
+        </parameter>
+        <parameter>
+            <name>sg</name>
+            <type>Constant</type>
+            <values>1.</values>
+	    </parameter>
+        <parameter>
+            <name>e0</name>
+            <type>Constant</type>
+            <values>1 0 0</values>
+        </parameter>
+        <parameter>
+            <name>e1</name>
+            <type>Constant</type>
+            <values>0 1 0</values>
+        </parameter>
+        <parameter>
+            <name>e2</name>
+            <type>Constant</type>
+            <values>0 0 1</values>
+        </parameter>
+        <parameter>
+            <name>displacement0</name>
+            <type>Constant</type>
+            <values>0 0 0</values>
+        </parameter>
+        <parameter>
+            <name>dirichlet0</name>
+            <type>Constant</type>
+            <value>0</value>
+        </parameter>       
+       <parameter>
+            <name>Dirichlet_top</name>
+            <type>CurveScaled</type>
+            <curve>dis_loading_curve</curve>
+            <parameter>loading_value_top</parameter>
+        </parameter>
+        <parameter>
+            <name>loading_value_top</name>
+            <type>Constant</type>
+            <value>-2e-3</value> <!-- is to be in mm -->
+        </parameter> 
+        <parameter>
+            <name>Confining_pressure_side</name>
+            <type>CurveScaled</type>
+            <curve>pre_loading_curve</curve>
+            <parameter>loading_value_side</parameter>
+        </parameter>
+        <parameter>
+            <name>loading_value_side</name>
+            <type>Constant</type>
+            <values>0.</values> <!-- confinement is to be in MPa -->
+        </parameter>
+    </parameters>	
+    <process_variables>
+        <process_variable>
+            <name>displacement</name>
+            <components>3</components>
+            <order>2</order>
+            <initial_condition>displacement0</initial_condition>
+            <boundary_conditions>
+                <boundary_condition>
+                    <mesh>QuartCyl_zmax</mesh>
+                    <type>Dirichlet</type>
+                    <component>2</component>
+                    <parameter>Dirichlet_top</parameter>
+                </boundary_condition>		
+                <boundary_condition>
+                    <mesh>QuartCyl_zmin</mesh>
+                    <type>Dirichlet</type>
+                    <component>2</component>
+                    <parameter>dirichlet0</parameter>
+                </boundary_condition>
+                <boundary_condition>
+                    <mesh>QuartCyl_xmin</mesh>
+                    <type>Dirichlet</type>
+                    <component>0</component>
+                    <parameter>dirichlet0</parameter>
+                </boundary_condition>
+                <boundary_condition>
+                    <mesh>QuartCyl_ymin</mesh>
+                    <type>Dirichlet</type>
+                    <component>1</component>
+                    <parameter>dirichlet0</parameter>
+                </boundary_condition>
+                <boundary_condition>
+                    <mesh>QuartCyl_side</mesh>
+                    <type>Neumann</type>
+                    <component>0</component>
+                    <parameter>Confining_pressure_side</parameter>
+                </boundary_condition>
+            </boundary_conditions>
+        </process_variable>
+    </process_variables>
+    <nonlinear_solvers>
+        <nonlinear_solver>
+            <name>basic_newton</name>
+            <type>Newton</type>
+            <max_iter>10</max_iter>
+            <linear_solver>general_linear_solver</linear_solver>
+        </nonlinear_solver>
+    </nonlinear_solvers>
+    <linear_solvers>
+        <linear_solver>
+            <name>general_linear_solver</name>
+            <lis>-i cg -p jacobi -tol 1e-16 -maxiter 10000</lis>
+            <eigen>
+                <solver_type>SparseLU</solver_type>
+                <!--solver_type>PardisoLU</solver_type-->
+                <!--solver_type>BiCGSTAB</solver_type-->
+                <precon_type>DIAGONAL</precon_type>  <!--ILUT or DIAGONAL are the options -->
+                <max_iteration_step>10000</max_iteration_step>
+                <error_tolerance>1e-16</error_tolerance>
+                <scaling>true</scaling>
+            </eigen>
+            <petsc>
+                <prefix>sd</prefix>
+                <parameters>-sd_ksp_type cg -sd_pc_type bjacobi -sd_ksp_rtol 1e-16 -sd_ksp_max_it 10000</parameters>
+            </petsc>
+        </linear_solver>
+    </linear_solvers>
+    <curves>
+        <curve>
+            <name>dis_loading_curve</name>
+            <coords>0 1 10</coords>
+            <values>0 0.1 1</values>
+        </curve>
+        <curve>
+            <name>pre_loading_curve</name>
+            <coords>0 1 10</coords>
+            <values>0 1 1</values>
+        </curve>
+    </curves>
+</OpenGeoSysProject>

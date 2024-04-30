@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<VTKFile type="Collection" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+  <Collection>
+    <DataSet timestep="0" group="" part="0" file="cylinder_compression_ts_0_t_0_sec.vtu"/>
+    <DataSet timestep="0.05" group="" part="0" file="cylinder_compression_ts_1_t_0.05_sec.vtu"/>
+    <DataSet timestep="0.11" group="" part="0" file="cylinder_compression_ts_2_t_0.11_sec.vtu"/>
+    <DataSet timestep="0.182" group="" part="0" file="cylinder_compression_ts_3_t_0.182_sec.vtu"/>
+    <DataSet timestep="0.2684" group="" part="0" file="cylinder_compression_ts_4_t_0.2684_sec.vtu"/>
+    <DataSet timestep="0.37208" group="" part="0" file="cylinder_compression_ts_5_t_0.37208_sec.vtu"/>
+    <DataSet timestep="0.496496" group="" part="0" file="cylinder_compression_ts_6_t_0.496496_sec.vtu"/>
+    <DataSet timestep="0.6457952" group="" part="0" file="cylinder_compression_ts_7_t_0.645795_sec.vtu"/>
+    <DataSet timestep="0.82495424" group="" part="0" file="cylinder_compression_ts_8_t_0.824954_sec.vtu"/>
+    <DataSet timestep="1.039945088" group="" part="0" file="cylinder_compression_ts_9_t_1.03995_sec.vtu"/>
+    <DataSet timestep="1.2979341056" group="" part="0" file="cylinder_compression_ts_10_t_1.29793_sec.vtu"/>
+    <DataSet timestep="1.60752092672" group="" part="0" file="cylinder_compression_ts_11_t_1.60752_sec.vtu"/>
+    <DataSet timestep="1.979025112064" group="" part="0" file="cylinder_compression_ts_12_t_1.97903_sec.vtu"/>
+    <DataSet timestep="2.4248301344768" group="" part="0" file="cylinder_compression_ts_13_t_2.42483_sec.vtu"/>
+    <DataSet timestep="2.95979616137216" group="" part="0" file="cylinder_compression_ts_14_t_2.9598_sec.vtu"/>
+    <DataSet timestep="3.60175539364659" group="" part="0" file="cylinder_compression_ts_15_t_3.60176_sec.vtu"/>
+    <DataSet timestep="4.37210647237591" group="" part="0" file="cylinder_compression_ts_16_t_4.37211_sec.vtu"/>
+    <DataSet timestep="5.29652776685109" group="" part="0" file="cylinder_compression_ts_17_t_5.29653_sec.vtu"/>
+    <DataSet timestep="6.40583332022131" group="" part="0" file="cylinder_compression_ts_18_t_6.40583_sec.vtu"/>
+    <DataSet timestep="7.73699998426557" group="" part="0" file="cylinder_compression_ts_19_t_7.737_sec.vtu"/>
+    <DataSet timestep="9.33439998111868" group="" part="0" file="cylinder_compression_ts_20_t_9.3344_sec.vtu"/>
+    <DataSet timestep="10" group="" part="0" file="cylinder_compression_ts_21_t_10_sec.vtu"/>
+  </Collection>
+</VTKFile>
